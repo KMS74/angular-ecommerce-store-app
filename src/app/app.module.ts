@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
-import { UserViewComponent } from './pages/user-view/user-view.component';
+import { ProductsListComponent } from './pages/products-list/products-list.component';
 import { AdminViewComponent } from './pages/admin-view/admin-view.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,12 +16,13 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { LogoComponent } from './components/logo/logo.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { NotFoundIllustrationComponent } from './components/not-found-illustration/not-found-illustration.component';
+import { ProductItemComponent } from './components/product-item/product-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginFormComponent,
-    UserViewComponent,
+    ProductsListComponent,
     AdminViewComponent,
     LoginPageComponent,
     ProductDetailsComponent,
@@ -30,6 +31,7 @@ import { NotFoundIllustrationComponent } from './components/not-found-illustrati
     LogoComponent,
     PageNotFoundComponent,
     NotFoundIllustrationComponent,
+    ProductItemComponent,
   ],
   imports: [
     BrowserModule,

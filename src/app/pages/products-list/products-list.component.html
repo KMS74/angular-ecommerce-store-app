@@ -1,0 +1,26 @@
+<app-loading-spinner *ngIf="isLoading" />
+
+<div *ngIf="isError" class="alert alert-danger text-center my-4" role="alert">
+  Hi there! It looks like you're having trouble connecting 🌍. Can you please
+  check your internet connection and try again?
+</div>
+
+<section *ngIf="!isLoading && products.length > 0">
+  <h1 class="display-1 text-center my-4">Products List</h1>
+
+  <div
+    data-aos="fade-up"
+    data-aos-duration="2000"
+    *ngFor="let item of products; let i = index"
+    class="container mb-4"
+  >
+    <h3 class="h3 mb-2">
+      {{ item.categoryName | titlecase }} ({{ item.totalProducts }})
+    </h3>
+    <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3">
+      <div *ngFor="let product of item.products" class="col">
+        <app-product-item [product]="product" />
+      </div>
+    </div>
+  </div>
+</section>

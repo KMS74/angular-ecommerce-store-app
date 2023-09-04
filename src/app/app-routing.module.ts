@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminViewComponent } from './pages/admin-view/admin-view.component';
-import { UserViewComponent } from './pages/user-view/user-view.component';
+import { ProductsListComponent } from './pages/products-list/products-list.component';
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -23,7 +23,7 @@ const routes: Routes = [
 
   {
     path: 'products',
-    component: UserViewComponent,
+    component: ProductsListComponent,
     canActivate: [AuthGuard],
     data: {
       requiredRole: UserRole.USER,

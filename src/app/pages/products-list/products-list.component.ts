@@ -5,10 +5,10 @@ import * as Aos from 'aos';
 
 @Component({
   selector: 'app-user-view',
-  templateUrl: './user-view.component.html',
-  styleUrls: ['./user-view.component.scss'],
+  templateUrl: './products-list.component.html',
+  styleUrls: ['./products-list.component.scss'],
 })
-export class UserViewComponent implements OnInit {
+export class ProductsListComponent implements OnInit {
   private categories: string[] = [];
   products: CategoryProducts[] = [];
   isLoading: boolean = false;
