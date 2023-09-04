@@ -1,1 +1,71 @@
-<h1>Admin View</h1>
+<app-loading-spinner *ngIf="isLoading" />
+
+<div *ngIf="isError" class="alert alert-danger text-center my-4" role="alert">
+  Hi there! It looks like you're having trouble connecting 🌍. Can you please
+  check your internet connection and try again?
+</div>
+
+<section *ngIf="!isLoading && products">
+  <h2 class="display-2 text-center my-4">Admin Dashbaord</h2>
+
+  <div class="container mb-4">
+    <button class="btn btn-primary btn-lg mb-3">Add Product</button>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Category</th>
+          <th scope="col">Price</th>
+          <th scope="col">Rate</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of productsPaginated">
+          <th scope="row">{{ product.id }}</th>
+          <td>{{ product.title }}</td>
+          <td>{{ product.category | titlecase }}</td>
+          <td>{{ product.price | currency }}</td>
+          <td>
+            <star-rating
+              labelPosition="right"
+              [readOnly]="true"
+              [starType]="'svg'"
+              [rating]="product.rating.rate"
+            />
+          </td>
+          <td class="d-flex align-items-center gap-3">
+            <button class="btn btn-outline-primary">
+              <i class="bi bi-pencil fs-6"></i>
+            </button>
+            <button class="btn btn-outline-danger">
+              <i class="bi bi-trash fs-6"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination
+        [collectionSize]="totalProducts"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="refreshProducts()"
+      >
+      </ngb-pagination>
+
+      <select
+        class="form-select"
+        style="width: auto"
+        [(ngModel)]="pageSize"
+        (ngModelChange)="refreshProducts()"
+      >
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+        <option [ngValue]="15">15 items per page</option>
+      </select>
+    </div>
+  </div>
+</section>

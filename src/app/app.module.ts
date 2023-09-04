@@ -17,6 +17,11 @@ import { LogoComponent } from './components/logo/logo.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { NotFoundIllustrationComponent } from './components/not-found-illustration/not-found-illustration.component';
 import { ProductItemComponent } from './components/product-item/product-item.component';
+import {
+  NgbPaginationModule,
+  NgbTypeaheadModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { DecimalPipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -39,6 +44,9 @@ import { ProductItemComponent } from './components/product-item/product-item.com
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
+    NgbTypeaheadModule,
+    NgbPaginationModule,
+    DecimalPipe,
     StarRatingModule.forRoot(),
   ],
   providers: [],
