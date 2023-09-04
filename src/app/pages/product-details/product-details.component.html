@@ -1,0 +1,77 @@
+<app-loading-spinner *ngIf="isLoading" />
+
+<div *ngIf="isError" class="alert alert-danger text-center my-4" role="alert">
+  Hi there! It looks like you're having trouble connecting 🌍. Can you please
+  check your internet connection and try again?
+</div>
+
+<section class="my-4" *ngIf="!isLoading && product">
+  <div class="container-md p-4">
+    <div class="card h-100 border-0">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img
+            src="{{ product.image }}"
+            class="img-fluid rounded-start h-100"
+            alt="{{ product.title }}"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title display-6">{{ product.title }}</h5>
+            <p class="text-muted">
+              {{ product.category | titlecase }}
+            </p>
+
+            <h2 class="text-primary fs-2 my-2 fw-bold">
+              {{ totalPrice | currency }}
+            </h2>
+
+            <star-rating
+              class="star-svg"
+              labelPosition="right"
+              [readOnly]="true"
+              [starType]="'svg'"
+              size="large"
+              [rating]="product.rating.rate"
+              [labelText]="reviewText"
+            />
+
+            <p class="card-text text-muted my-3">
+              {{ product.description }}
+            </p>
+
+            <div class="w-50 d-flex flex-column gap-2">
+              <div class="d-flex gap-4 my-3 align-items-center w-100">
+                <div class="d-flex align-items-center gap-3">
+                  <button
+                    (click)="increaseProductQuantity()"
+                    class="btn btn-light"
+                  >
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                  <span class="fs-5">{{ productQuantity }}</span>
+                  <button
+                    (click)="decreaseProductQuantity()"
+                    class="btn btn-light"
+                  >
+                    <i class="bi bi-dash-lg"></i>
+                  </button>
+                </div>
+
+                <button
+                  class="btn btn-primary btn-lg p-2 d-flex flex-grow-1 gap-2 justify-content-center align-items-center"
+                >
+                  <i class="bi bi-handbag"></i>
+                  Add To Cart
+                </button>
+              </div>
+
+              <button class="btn btn-secondary btn-lg p-2">Buy It Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

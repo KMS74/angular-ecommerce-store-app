@@ -1,0 +1,35 @@
+<div class="conatiner">
+  <form
+    (ngSubmit)="login()"
+    #loginForm="ngForm"
+    class="login-form p-4 broder-1 rounded bg-light"
+  >
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input
+        requird
+        type="username"
+        class="form-control"
+        name="username"
+        id="username"
+        [(ngModel)]="username"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        required
+        type="password"
+        class="form-control"
+        name="password"
+        id="password"
+        [(ngModel)]="password"
+      />
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary w-50">Login</button>
+    </div>
+  </form>
+</div>

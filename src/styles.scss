@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Poppins Google Font
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;700;900&display=swap");
+
+/* Override colors by using scss variables */
+// $color-negative-rating: #0f0 !default;
+// $color-ok-rating: #f00 !default;
+// $color-positive-rating: #00f !default;
+// $color-default-rating: #ff0 !default;
+
+/* Import star-rating styles */
+@import "css-star-rating/scss/star-rating";
+
+// override bootstrap 5
+$primary: #6c2e7c;
+$secondary: #ffce69;
+$secondary-darkish: #f19b5f;
+$danger: #f13232;
+$dark: #313131;
+
+/* Importing Bootstrap SCSS file. */
+@import "bootstrap/scss/bootstrap";
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: $dark;
+}

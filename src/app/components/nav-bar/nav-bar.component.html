@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+  <div class="container">
+    <app-logo />
+
+    <button
+      class="navbar-toggler d-lg-none"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#collapsibleNavId"
+      aria-controls="collapsibleNavId"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse p-1" id="collapsibleNavId">
+      <h4 *ngIf="!isLoggedIn" class="me-auto m-0">
+        <a class="text-decoration-none color-black" routerLink="/login">
+          Angular Store App</a
+        >
+      </h4>
+      <ul *ngIf="isLoggedIn" class="navbar-nav mt-2 me-auto mt-lg-0">
+        <ng-container *ngIf="isLoggedInUser">
+          <li class="nav-item fs-5">
+            <a class="nav-link" routerLink="products">Products</a>
+          </li>
+          <li class="nav-item fs-5">
+            <a class="nav-link" routerLink="categories">Categories</a>
+          </li>
+        </ng-container>
+
+        <ng-container *ngIf="isLoggedInAdmin">
+          <li class="nav-item fs-5">
+            <a class="nav-link" routerLink="dashboard">Dashboard</a>
+          </li>
+        </ng-container>
+      </ul>
+      <form *ngIf="isLoggedIn" class="d-flex flex-grow-1 mt-2 mb-4 my-lg-0">
+        <input
+          class="form-control me-sm-2"
+          type="text"
+          placeholder="search for products..."
+        />
+      </form>
+      <div class="d-flex gap-2 align-items-center">
+        <button *ngIf="isLoggedIn" class="btn border-0">
+          <i style="font-size: 1.5rem" class="bi bi-handbag"></i>
+          <span class="badge rounded-pill bg-danger">0</span>
+        </button>
+        <button *ngIf="isLoggedIn" (click)="logout()" class="btn btn-primary">
+          Sign out
+        </button>
+
+        <button
+          *ngIf="!isLoggedIn"
+          (click)="navigateToLogin()"
+          class="btn btn-primary"
+        >
+          login
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
