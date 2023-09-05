@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Product } from '../types/product';
+import { Product, ProductDataType } from '../types/product';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,13 @@ export class ProductService {
   // Getting all categories from fake store API
   getProducts(): Observable<Product[]> {
     return this._http.get<Product[]>(`${this.BASE_URL}/products`);
+  }
+
+  createProduct(productData: ProductDataType): Observable<ProductDataType> {
+    return this._http.post<ProductDataType>(
+      `${this.BASE_URL}/products`,
+      productData
+    );
   }
 
   // Getting all produts in a specfic category from fake store API
@@ -34,15 +41,3 @@ export class ProductService {
     return this._http.get<string[]>(`${this.BASE_URL}/products/categories`);
   }
 }
-
-[
-  {
-    categoryName: 'Product',
-    prooducts: [],
-  },
-
-  {
-    categoryName: 'Product',
-    prooducts: [],
-  },
-];

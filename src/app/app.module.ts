@@ -17,6 +17,8 @@ import { LogoComponent } from './components/logo/logo.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { NotFoundIllustrationComponent } from './components/not-found-illustration/not-found-illustration.component';
 import { ProductItemComponent } from './components/product-item/product-item.component';
+import { ToastService, AngularToastifyModule } from 'angular-toastify';
+
 import {
   NgbPaginationModule,
   NgbTypeaheadModule,
@@ -47,9 +49,10 @@ import { DecimalPipe } from '@angular/common';
     NgbTypeaheadModule,
     NgbPaginationModule,
     DecimalPipe,
+    AngularToastifyModule,
     StarRatingModule.forRoot(),
   ],
-  providers: [],
+  providers: [ToastService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -5,11 +5,93 @@
   check your internet connection and try again?
 </div>
 
+<!-- Add new product model -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title text-center">Add Product</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="onSubmitAddProduct()">
+      <div class="mb-1">
+        <label for="title" class="form-label">Product Title</label>
+        <input
+          type="text"
+          class="form-control"
+          name="title"
+          id="title"
+          [(ngModel)]="productData.title"
+        />
+      </div>
+
+      <div class="mb-1">
+        <label for="price" class="form-label">Product Price</label>
+        <input
+          type="text"
+          class="form-control"
+          name="price"
+          id="price"
+          [(ngModel)]="productData.price"
+        />
+      </div>
+      <div class="mb-1">
+        <label for="category" class="form-label">Category</label>
+        <select
+          class="form-select form-select-lg"
+          name="category"
+          id="category"
+          [(ngModel)]="productData.category"
+        >
+          <option selected disabled value="">Select a category</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category | titlecase }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-1">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          name="description"
+          id="description"
+          rows="3"
+          [(ngModel)]="productData.description"
+        ></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">Add Product</button>
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="modal.close('Close click')"
+        >
+          Close
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<lib-toastify-toast-container></lib-toastify-toast-container>
+
 <section *ngIf="!isLoading && products">
   <h2 class="display-2 text-center my-4">Admin Dashbaord</h2>
 
   <div class="container mb-4">
-    <button class="btn btn-primary btn-lg mb-3">Add Product</button>
+    <!-- Button to open add new product model -->
+    <button
+      class="btn btn-primary btn-lg mb-3"
+      (click)="openAddProductModel(content)"
+    >
+      Add Product
+    </button>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -24,7 +106,15 @@
       <tbody>
         <tr *ngFor="let product of productsPaginated">
           <th scope="row">{{ product.id }}</th>
-          <td>{{ product.title }}</td>
+          <td class="d-flex align-items-center gap-2">
+            <img
+              class="img-thumbnail"
+              style="width: 15%"
+              [src]="product.image"
+              [alt]="product.title"
+            />
+            {{ product.title }}
+          </td>
           <td>{{ product.category | titlecase }}</td>
           <td>{{ product.price | currency }}</td>
           <td>
@@ -35,13 +125,15 @@
               [rating]="product.rating.rate"
             />
           </td>
-          <td class="d-flex align-items-center gap-3">
-            <button class="btn btn-outline-primary">
-              <i class="bi bi-pencil fs-6"></i>
-            </button>
-            <button class="btn btn-outline-danger">
-              <i class="bi bi-trash fs-6"></i>
-            </button>
+          <td>
+            <div class="d-flex align-items-center gap-3 h-100">
+              <button class="btn btn-outline-primary">
+                <i class="bi bi-pencil fs-6"></i>
+              </button>
+              <button class="btn btn-outline-danger">
+                <i class="bi bi-trash fs-6"></i>
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
