@@ -79,6 +79,87 @@
   </div>
 </ng-template>
 
+<!-- Update product model -->
+<ng-template #updateProductForm let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">
+      Update Product
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="mb-1">
+        <label for="title" class="form-label">Product Title</label>
+        <input
+          type="text"
+          class="form-control"
+          name="title"
+          id="title"
+          [(ngModel)]="productData.title"
+        />
+      </div>
+
+      <div class="mb-1">
+        <label for="price" class="form-label">Product Price</label>
+        <input
+          type="text"
+          class="form-control"
+          name="price"
+          id="price"
+          [(ngModel)]="productData.price"
+        />
+      </div>
+      <div class="mb-1">
+        <label for="category" class="form-label">Category</label>
+        <select
+          class="form-select form-select-lg"
+          name="category"
+          id="category"
+          [(ngModel)]="productData.category"
+        >
+          <option selected disabled value="">Select a category</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category | titlecase }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-1">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          name="description"
+          id="description"
+          rows="3"
+          [(ngModel)]="productData.description"
+        ></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="c('yes')">Edit Product</button>
+        <button type="button" class="btn btn-light" (click)="d('Close click')">
+          Close
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- <div class="modal-footer">
+    <button class="btn btn-danger text-white" (click)="c('yes')">
+      Delete Product
+    </button>
+    <button type="button" class="btn btn-light" (click)="d('Close click')">
+      Close
+    </button>
+  </div> -->
+</ng-template>
+
 <!-- Delete product confirmation model -->
 <ng-template #deleteProductConfirmation let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -106,6 +187,7 @@
   </div>
 </ng-template>
 
+<!-- toastify container for displaying success/error messages -->
 <lib-toastify-toast-container></lib-toastify-toast-container>
 
 <section *ngIf="!isLoading && productsPaginated">
@@ -131,6 +213,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- table row -->
         <tr *ngFor="let product of productsPaginated; let i = index">
           <th scope="row">{{ i + 1 }}</th>
           <td class="d-flex align-items-center gap-2">
@@ -154,7 +237,10 @@
           </td>
           <td>
             <div class="d-flex align-items-center gap-3 h-100">
-              <button class="btn btn-outline-primary">
+              <button
+                (click)="openEditProductModel(updateProductForm, product.id)"
+                class="btn btn-outline-primary"
+              >
                 <i class="bi bi-pencil fs-6"></i>
               </button>
               <button
@@ -174,6 +260,7 @@
       </tbody>
     </table>
 
+    <!-- table pagination -->
     <div class="d-flex justify-content-between p-2">
       <ngb-pagination
         [collectionSize]="totalProducts"

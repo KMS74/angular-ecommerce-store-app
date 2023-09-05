@@ -27,6 +27,14 @@ export class ProductService {
     return this._http.delete<Product>(`${this.BASE_URL}/products/${id}`);
   }
 
+  // upadte product by its Id
+  updateProduct(productData: ProductDataType, id: number): Observable<Product> {
+    return this._http.patch<Product>(
+      `${this.BASE_URL}/products/${id}`,
+      productData
+    );
+  }
+
   // Getting all produts in a specfic category from fake store API
   getCategoryProducts(categoryName: string): Observable<Product[]> {
     return this._http.get<Product[]>(

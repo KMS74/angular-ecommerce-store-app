@@ -1,9 +1,7 @@
-import { Component, ElementRef, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Product, ProductDataType } from 'src/app/types/product';
-
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { count } from 'rxjs';
 import { ToastService } from 'angular-toastify';
 
 @Component({
@@ -30,6 +28,7 @@ export class AdminViewComponent implements OnInit {
   };
 
   closeResult = '';
+
   constructor(
     private productsService: ProductService,
     private modalService: NgbModal,
@@ -64,6 +63,7 @@ export class AdminViewComponent implements OnInit {
     );
   }
 
+  // for paginating products data
   refreshProducts() {
     this.productsPaginated = this.products.slice(
       (this.page - 1) * this.pageSize,
@@ -76,6 +76,7 @@ export class AdminViewComponent implements OnInit {
     this.modalService.open(content);
   }
 
+  // open model to delete product
   openConifirmationDeleteModel(
     content: TemplateRef<any>,
     productId: number
@@ -86,8 +87,6 @@ export class AdminViewComponent implements OnInit {
         (result) => {
           this.closeResult = `Closed with: ${result}`;
           if (result === 'yes') {
-            console.log('DELETED', productId);
-            console.log(result);
             this.deleteProduct(productId);
           }
         },
@@ -95,6 +94,31 @@ export class AdminViewComponent implements OnInit {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         }
       );
+  }
+
+  openEditProductModel(content: TemplateRef<any>, productId: number) {
+    this.modalService.open(content).result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+        if (result === 'yes') {
+          this.updateProduct(productId, this.productData);
+        }
+      },
+      (reason) => {
+        console.log(reason);
+        this.resetProductDate();
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+    const product = this.products.find((product) => product.id === productId);
+    if (product) {
+      this.productData = {
+        title: product.title,
+        price: product.price,
+        category: product.category,
+        description: product.description,
+      };
+    }
   }
 
   private getDismissReason(reason: any): string {
@@ -130,7 +154,6 @@ export class AdminViewComponent implements OnInit {
         })
         .subscribe(
           (product) => {
-            console.log('Product created successfully:', product);
             // Handle success, such as showing a success message or redirecting
             this._toastService.success('Product created successfully');
             this.products.unshift({
@@ -157,22 +180,41 @@ export class AdminViewComponent implements OnInit {
   deleteProduct(productId: number) {
     this.productsService.deleteProduct(productId).subscribe(
       (deletedProduct) => {
-        this._toastService.success('Product deleted successfully');
-        console.log(this.products);
-
-        console.log(
-          this.products.filter((product) => product.id !== deletedProduct.id)
-        );
-        console.log(this.products);
         this.products = this.products.filter(
-          (product) => product.id !== deletedProduct.id
+          (product) => product.id !== productId
         );
         this.refreshProducts();
+        this._toastService.success('Product deleted successfully');
       },
       (error) => {
         console.error(error);
         this._toastService.error(
           'Something went wrong while deleting the product'
+        );
+      }
+    );
+  }
+
+  updateProduct(productId: number, proctuctData: ProductDataType) {
+    this.productsService.updateProduct(proctuctData, productId).subscribe(
+      (updatedProduct) => {
+        this.products = this.products.map((product) =>
+          product.id === updatedProduct.id
+            ? {
+                ...updatedProduct,
+                rating: product.rating,
+                image: product.image,
+              }
+            : product
+        );
+        this.resetProductDate();
+        this.refreshProducts();
+        this._toastService.success('Product updated successfully');
+      },
+      (error) => {
+        console.error(error);
+        this._toastService.error(
+          'Something went wrong while updating the product'
         );
       }
     );
