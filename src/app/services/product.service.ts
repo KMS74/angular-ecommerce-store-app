@@ -17,11 +17,14 @@ export class ProductService {
     return this._http.get<Product[]>(`${this.BASE_URL}/products`);
   }
 
-  createProduct(productData: ProductDataType): Observable<ProductDataType> {
-    return this._http.post<ProductDataType>(
-      `${this.BASE_URL}/products`,
-      productData
-    );
+  // Create a new product
+  createProduct(productData: ProductDataType): Observable<Product> {
+    return this._http.post<Product>(`${this.BASE_URL}/products`, productData);
+  }
+
+  // Delete a product by its Id
+  deleteProduct(id: number): Observable<Product> {
+    return this._http.delete<Product>(`${this.BASE_URL}/products/${id}`);
   }
 
   // Getting all produts in a specfic category from fake store API

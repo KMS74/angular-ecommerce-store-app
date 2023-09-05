@@ -6,7 +6,7 @@
 </div>
 
 <!-- Add new product model -->
-<ng-template #content let-modal>
+<ng-template #addProductForm let-modal>
   <div class="modal-header">
     <h4 class="modal-title text-center">Add Product</h4>
     <button
@@ -79,16 +79,43 @@
   </div>
 </ng-template>
 
+<!-- Delete product confirmation model -->
+<ng-template #deleteProductConfirmation let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title text-center" id="modal-basic-title">
+      Delete Product Confirmation
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <h5 class="h5">Are Sure to Delete this product??</h5>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger text-white" (click)="c('yes')">
+      Delete Product
+    </button>
+    <button type="button" class="btn btn-light" (click)="d('Close click')">
+      Close
+    </button>
+  </div>
+</ng-template>
+
 <lib-toastify-toast-container></lib-toastify-toast-container>
 
-<section *ngIf="!isLoading && products">
+<section *ngIf="!isLoading && productsPaginated">
   <h2 class="display-2 text-center my-4">Admin Dashbaord</h2>
 
   <div class="container mb-4">
     <!-- Button to open add new product model -->
     <button
       class="btn btn-primary btn-lg mb-3"
-      (click)="openAddProductModel(content)"
+      (click)="openAddProductModel(addProductForm)"
     >
       Add Product
     </button>
@@ -104,8 +131,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let product of productsPaginated">
-          <th scope="row">{{ product.id }}</th>
+        <tr *ngFor="let product of productsPaginated; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
           <td class="d-flex align-items-center gap-2">
             <img
               class="img-thumbnail"
@@ -130,7 +157,15 @@
               <button class="btn btn-outline-primary">
                 <i class="bi bi-pencil fs-6"></i>
               </button>
-              <button class="btn btn-outline-danger">
+              <button
+                (click)="
+                  openConifirmationDeleteModel(
+                    deleteProductConfirmation,
+                    product.id
+                  )
+                "
+                class="btn btn-outline-danger"
+              >
                 <i class="bi bi-trash fs-6"></i>
               </button>
             </div>

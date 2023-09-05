@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, TemplateRef } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Product, ProductDataType } from 'src/app/types/product';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { count } from 'rxjs';
 import { ToastService } from 'angular-toastify';
 
@@ -12,9 +12,9 @@ import { ToastService } from 'angular-toastify';
   styleUrls: ['./admin-view.component.scss'],
 })
 export class AdminViewComponent implements OnInit {
-  products: any[] = [];
+  products: Product[] = [];
   categories: string[] = [];
-  productsPaginated: any[];
+  productsPaginated: Product[];
 
   page: number = 1;
   pageSize: number = 5;
@@ -29,6 +29,7 @@ export class AdminViewComponent implements OnInit {
     category: '',
   };
 
+  closeResult = '';
   constructor(
     private productsService: ProductService,
     private modalService: NgbModal,
@@ -64,20 +65,46 @@ export class AdminViewComponent implements OnInit {
   }
 
   refreshProducts() {
-    this.productsPaginated = this.products
-      .map((product, i) => ({
-        ...product,
-        id: i + 1,
-      }))
-      .slice(
-        (this.page - 1) * this.pageSize,
-        (this.page - 1) * this.pageSize + this.pageSize
-      );
+    this.productsPaginated = this.products.slice(
+      (this.page - 1) * this.pageSize,
+      (this.page - 1) * this.pageSize + this.pageSize
+    );
   }
 
   // open model to add new products
   openAddProductModel(content: TemplateRef<any>) {
     this.modalService.open(content);
+  }
+
+  openConifirmationDeleteModel(
+    content: TemplateRef<any>,
+    productId: number
+  ): void {
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+          if (result === 'yes') {
+            console.log('DELETED', productId);
+            console.log(result);
+            this.deleteProduct(productId);
+          }
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   resetProductDate() {
@@ -125,5 +152,29 @@ export class AdminViewComponent implements OnInit {
       this.resetProductDate();
       this.modalService.dismissAll();
     }
+  }
+
+  deleteProduct(productId: number) {
+    this.productsService.deleteProduct(productId).subscribe(
+      (deletedProduct) => {
+        this._toastService.success('Product deleted successfully');
+        console.log(this.products);
+
+        console.log(
+          this.products.filter((product) => product.id !== deletedProduct.id)
+        );
+        console.log(this.products);
+        this.products = this.products.filter(
+          (product) => product.id !== deletedProduct.id
+        );
+        this.refreshProducts();
+      },
+      (error) => {
+        console.error(error);
+        this._toastService.error(
+          'Something went wrong while deleting the product'
+        );
+      }
+    );
   }
 }
