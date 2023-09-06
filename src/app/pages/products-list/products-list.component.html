@@ -1,12 +1,13 @@
 <app-loading-spinner *ngIf="isLoading" />
 
 <div *ngIf="isError" class="alert alert-danger text-center my-4" role="alert">
-  Hi there! It looks like you're having trouble connecting 🌍. Can you please
-  check your internet connection and try again?
+  {{ "FAIL_CONNECTION_MESSAGE" | translate }}
 </div>
 
 <section *ngIf="!isLoading && products.length > 0">
-  <h1 class="display-1 text-center my-4">Products List</h1>
+  <h1 class="display-1 text-center my-4">
+    {{ "PRODUCTS_PAGE_TITLE" | translate }}
+  </h1>
 
   <div
     data-aos="fade-up"

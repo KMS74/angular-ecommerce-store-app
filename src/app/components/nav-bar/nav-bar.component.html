@@ -14,32 +14,43 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse p-1" id="collapsibleNavId">
-      <h4 *ngIf="!isLoggedIn" class="me-auto m-0">
+      <!-- <h4 *ngIf="!isLoggedIn" class="me-auto m-0">
         <a class="text-decoration-none color-black" routerLink="/login">
           Angular Store App</a
         >
-      </h4>
+      </h4> -->
+      <div class="me-auto m-0"></div>
+
       <ul *ngIf="isLoggedIn" class="navbar-nav mt-2 me-auto mt-lg-0">
         <ng-container *ngIf="isLoggedInUser">
           <li class="nav-item fs-5">
-            <a class="nav-link" routerLink="products">Products</a>
+            <a class="nav-link" routerLink="products">
+              {{ "PRODUCTS" | translate }}
+            </a>
           </li>
           <li class="nav-item fs-5">
-            <a class="nav-link" routerLink="categories">Categories</a>
+            <a class="nav-link" routerLink="categories">
+              {{ "CATEGORIES" | translate }}
+            </a>
           </li>
         </ng-container>
 
         <ng-container *ngIf="isLoggedInAdmin">
           <li class="nav-item fs-5">
-            <a class="nav-link" routerLink="dashboard">Dashboard</a>
+            <a class="nav-link" routerLink="dashboard">
+              {{ "ADMIN_DASHBOARD" | translate }}
+            </a>
           </li>
         </ng-container>
       </ul>
-      <form *ngIf="isLoggedIn" class="d-flex flex-grow-1 mt-2 mb-4 my-lg-0">
+      <form
+        *ngIf="isLoggedIn"
+        class="d-flex flex-grow-1 mt-2 mb-4 mx-2 my-lg-0"
+      >
         <input
           class="form-control me-sm-2"
           type="text"
-          placeholder="search for products..."
+          [placeholder]="'SEARCH_PALCEHOLDER' | translate"
         />
       </form>
       <div class="d-flex gap-2 align-items-center">
@@ -48,7 +59,7 @@
           <span class="badge rounded-pill bg-danger">0</span>
         </button>
         <button *ngIf="isLoggedIn" (click)="logout()" class="btn btn-primary">
-          Sign out
+          {{ "SIGN_OUT" | translate }}
         </button>
 
         <button
@@ -56,8 +67,38 @@
           (click)="navigateToLogin()"
           class="btn btn-primary"
         >
-          login
+          {{ "LOGIN" | translate }}
         </button>
+
+        <div class="dropdown open">
+          <button
+            class="btn btn-light dropdown-toggle"
+            type="button"
+            id="triggerId"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i class="bi bi-translate fs-5"></i>
+            {{ translate.currentLang | uppercase }}
+          </button>
+          <div class="dropdown-menu" aria-labelledby="triggerId">
+            <button
+              (click)="changeCurrentLanguage('ar')"
+              class="btn btn-light d-flex align-items-center gap-1 dropdown-item"
+            >
+              <img src="/assets/images/SA.svg" alt="arabic" />
+              <span> العربية </span>
+            </button>
+            <button
+              (click)="changeCurrentLanguage('en')"
+              class="btn btn-light d-flex align-items-center gap-1 dropdown-item"
+            >
+              <img src="/assets/images/ic_flag_en.svg" alt="english" />
+              <span> English </span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

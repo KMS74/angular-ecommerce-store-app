@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -18,12 +18,18 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { NotFoundIllustrationComponent } from './components/not-found-illustration/not-found-illustration.component';
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { ToastService, AngularToastifyModule } from 'angular-toastify';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import {
   NgbPaginationModule,
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { DecimalPipe } from '@angular/common';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -51,6 +57,14 @@ import { DecimalPipe } from '@angular/common';
     DecimalPipe,
     AngularToastifyModule,
     StarRatingModule.forRoot(),
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [ToastService],
   bootstrap: [AppComponent],

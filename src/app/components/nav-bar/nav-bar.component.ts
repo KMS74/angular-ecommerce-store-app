@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AuthService, UserRole } from 'src/app/services/auth.service';
 
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,7 +11,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  currentLang: string;
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    public translate: TranslateService,
+    private languageService: LanguageService
+  ) {}
 
   get isLoggedIn() {
     return this.authService.isLoggedIn();
@@ -34,5 +42,9 @@ export class NavBarComponent {
   }
   logout() {
     this.authService.logout();
+  }
+
+  changeCurrentLanguage(lang: string) {
+    this.languageService.setLanguage(lang);
   }
 }

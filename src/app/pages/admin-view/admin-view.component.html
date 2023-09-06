@@ -1,25 +1,20 @@
 <app-loading-spinner *ngIf="isLoading" />
 
 <div *ngIf="isError" class="alert alert-danger text-center my-4" role="alert">
-  Hi there! It looks like you're having trouble connecting 🌍. Can you please
-  check your internet connection and try again?
+  {{ "FAIL_CONNECTION_MESSAGE" | translate }}
 </div>
 
 <!-- Add new product model -->
 <ng-template #addProductForm let-modal>
   <div class="modal-header">
-    <h4 class="modal-title text-center">Add Product</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
+    <h4 class="modal-title text-center">{{ "ADD_PRODUCT" | translate }}</h4>
   </div>
   <div class="modal-body">
     <form (ngSubmit)="onSubmitAddProduct()">
       <div class="mb-1">
-        <label for="title" class="form-label">Product Title</label>
+        <label for="title" class="form-label">
+          {{ "PRODUCT_TITLE" | translate }}
+        </label>
         <input
           type="text"
           class="form-control"
@@ -30,7 +25,9 @@
       </div>
 
       <div class="mb-1">
-        <label for="price" class="form-label">Product Price</label>
+        <label for="price" class="form-label">
+          {{ "PRODUCT_PRICE" | translate }}
+        </label>
         <input
           type="text"
           class="form-control"
@@ -40,14 +37,18 @@
         />
       </div>
       <div class="mb-1">
-        <label for="category" class="form-label">Category</label>
+        <label for="category" class="form-label">
+          {{ "PRODUCT_CATEGORY" | translate }}
+        </label>
         <select
           class="form-select form-select-lg"
           name="category"
           id="category"
           [(ngModel)]="productData.category"
         >
-          <option selected disabled value="">Select a category</option>
+          <option selected disabled value="">
+            {{ "SELECT_CATEGORY" | translate }}
+          </option>
           <option *ngFor="let category of categories" [value]="category">
             {{ category | titlecase }}
           </option>
@@ -55,7 +56,9 @@
       </div>
 
       <div class="mb-1">
-        <label for="description" class="form-label">Description</label>
+        <label for="description" class="form-label">
+          {{ "PRODUCT_DESCRIPTION" | translate }}
+        </label>
         <textarea
           class="form-control"
           name="description"
@@ -66,13 +69,15 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-primary" type="submit">Add Product</button>
+        <button class="btn btn-primary" type="submit">
+          {{ "ADD_PRODUCT" | translate }}
+        </button>
         <button
           type="button"
           class="btn btn-light"
           (click)="modal.close('Close click')"
         >
-          Close
+          {{ "CLOSE" | translate }}
         </button>
       </div>
     </form>
@@ -83,19 +88,15 @@
 <ng-template #updateProductForm let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-center" id="modal-basic-title">
-      Update Product
+      {{ "UPDATE_PRODUCT" | translate }}
     </h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="d('Cross click')"
-    ></button>
   </div>
   <div class="modal-body">
     <form>
       <div class="mb-1">
-        <label for="title" class="form-label">Product Title</label>
+        <label for="title" class="form-label">
+          {{ "PRODUCT_TITLE" | translate }}
+        </label>
         <input
           type="text"
           class="form-control"
@@ -106,7 +107,9 @@
       </div>
 
       <div class="mb-1">
-        <label for="price" class="form-label">Product Price</label>
+        <label for="price" class="form-label">
+          {{ "PRODUCT_PRICE" | translate }}
+        </label>
         <input
           type="text"
           class="form-control"
@@ -116,14 +119,18 @@
         />
       </div>
       <div class="mb-1">
-        <label for="category" class="form-label">Category</label>
+        <label for="category" class="form-label">
+          {{ "PRODUCT_CATEGORY" | translate }}
+        </label>
         <select
           class="form-select form-select-lg"
           name="category"
           id="category"
           [(ngModel)]="productData.category"
         >
-          <option selected disabled value="">Select a category</option>
+          <option selected disabled value="">
+            {{ "SELECT_CATEGORY" | translate }}
+          </option>
           <option *ngFor="let category of categories" [value]="category">
             {{ category | titlecase }}
           </option>
@@ -131,7 +138,9 @@
       </div>
 
       <div class="mb-1">
-        <label for="description" class="form-label">Description</label>
+        <label for="description" class="form-label">
+          {{ "PRODUCT_DESCRIPTION" | translate }}
+        </label>
         <textarea
           class="form-control"
           name="description"
@@ -142,47 +151,35 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-primary" (click)="c('yes')">Edit Product</button>
+        <button class="btn btn-primary" (click)="c('yes')">
+          {{ "UPDATE_PRODUCT" | translate }}
+        </button>
         <button type="button" class="btn btn-light" (click)="d('Close click')">
-          Close
+          {{ "CLOSE" | translate }}
         </button>
       </div>
     </form>
   </div>
-
-  <!-- <div class="modal-footer">
-    <button class="btn btn-danger text-white" (click)="c('yes')">
-      Delete Product
-    </button>
-    <button type="button" class="btn btn-light" (click)="d('Close click')">
-      Close
-    </button>
-  </div> -->
 </ng-template>
 
 <!-- Delete product confirmation model -->
 <ng-template #deleteProductConfirmation let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title text-center" id="modal-basic-title">
-      Delete Product Confirmation
+      {{ "DELETE_PRODUCT_CONFIRMATION" | translate }}
     </h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="d('Cross click')"
-    ></button>
   </div>
   <div class="modal-body">
-    <h5 class="h5">Are Sure to Delete this product??</h5>
+    {{ "DELETE_PRODUCT_MESSAGE" | translate }}
+    <h5 class="h5"></h5>
   </div>
 
   <div class="modal-footer">
     <button class="btn btn-danger text-white" (click)="c('yes')">
-      Delete Product
+      {{ "DELETE_PRODUCT" | translate }}
     </button>
     <button type="button" class="btn btn-light" (click)="d('Close click')">
-      Close
+      {{ "CLOSE" | translate }}
     </button>
   </div>
 </ng-template>
@@ -191,7 +188,9 @@
 <lib-toastify-toast-container></lib-toastify-toast-container>
 
 <section *ngIf="!isLoading && productsPaginated">
-  <h2 class="display-2 text-center my-4">Admin Dashbaord</h2>
+  <h2 class="display-2 text-center my-4">
+    {{ "PRODUCTS_PAGE_TITLE" | translate }}
+  </h2>
 
   <div class="container mb-4">
     <!-- Button to open add new product model -->
@@ -199,17 +198,27 @@
       class="btn btn-primary btn-lg mb-3"
       (click)="openAddProductModel(addProductForm)"
     >
-      Add Product
+      {{ "ADD_PRODUCT" | translate }}
     </button>
     <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Title</th>
-          <th scope="col">Category</th>
-          <th scope="col">Price</th>
-          <th scope="col">Rate</th>
-          <th>Actions</th>
+          <th scope="col">
+            {{ "PRODUCT_TITLE" | translate }}
+          </th>
+          <th scope="col">
+            {{ "PRODUCT_CATEGORY" | translate }}
+          </th>
+          <th scope="col">
+            {{ "PRODUCT_PRICE" | translate }}
+          </th>
+          <th scope="col">
+            {{ "PRODUCT_RATE" | translate }}
+          </th>
+          <th>
+            {{ "PRODUCT_ACTIONS" | translate }}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -276,9 +285,9 @@
         [(ngModel)]="pageSize"
         (ngModelChange)="refreshProducts()"
       >
-        <option [ngValue]="5">5 items per page</option>
-        <option [ngValue]="10">10 items per page</option>
-        <option [ngValue]="15">15 items per page</option>
+        <option [ngValue]="5">5 {{ "PRODUCTS_PER_PAGE" | translate }}</option>
+        <option [ngValue]="10">10 {{ "PRODUCTS_PER_PAGE" | translate }}</option>
+        <option [ngValue]="15">15 {{ "PRODUCTS_PER_PAGE" | translate }}</option>
       </select>
     </div>
   </div>

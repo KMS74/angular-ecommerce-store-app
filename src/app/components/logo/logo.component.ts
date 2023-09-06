@@ -9,16 +9,15 @@ import { AuthService, UserRole } from 'src/app/services/auth.service';
 export class LogoComponent {
   constructor(private authService: AuthService) {}
 
+  get isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+
   redirectionRoute() {
     if (this.authService.isLoggedIn()) {
       const currentUserRole = this.authService.getCurrentUserRole();
-      // console.log(
-      //   'logged in and redirecting based on user role',
-      //   currentUserRole
-      // );
       return currentUserRole === UserRole.USER ? '/products' : '/dashboard';
     }
-    // console.log('not logged in and redirecting to login page');
 
     return '/login';
   }

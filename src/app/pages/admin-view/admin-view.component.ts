@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Product, ProductDataType } from 'src/app/types/product';
@@ -32,7 +33,8 @@ export class AdminViewComponent implements OnInit {
   constructor(
     private productsService: ProductService,
     private modalService: NgbModal,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private transalte: TranslateService
   ) {}
   ngOnInit(): void {
     this.isLoading = true;
@@ -155,7 +157,9 @@ export class AdminViewComponent implements OnInit {
         .subscribe(
           (product) => {
             // Handle success, such as showing a success message or redirecting
-            this._toastService.success('Product created successfully');
+            this._toastService.success(
+              this.transalte.instant('CREATE_PRODUCT_SUCCESS')
+            );
             this.products.unshift({
               ...product,
               rating: {
@@ -168,7 +172,9 @@ export class AdminViewComponent implements OnInit {
           (error) => {
             // Handle error, such as showing an error message
             console.error('Error creating product:', error);
-            this._toastService.error('Something went wrong creating product');
+            this._toastService.error(
+              this.transalte.instant('CREATE_PRODUCT_FAIL')
+            );
           }
         );
 
@@ -184,13 +190,13 @@ export class AdminViewComponent implements OnInit {
           (product) => product.id !== productId
         );
         this.refreshProducts();
-        this._toastService.success('Product deleted successfully');
+        this._toastService.success(
+          this.transalte.instant('DELETE_PRODUCT_SUCCESS')
+        );
       },
       (error) => {
         console.error(error);
-        this._toastService.error(
-          'Something went wrong while deleting the product'
-        );
+        this._toastService.error(this.transalte.instant('DELTE_PRODUCT_FAIL'));
       }
     );
   }
@@ -209,13 +215,13 @@ export class AdminViewComponent implements OnInit {
         );
         this.resetProductDate();
         this.refreshProducts();
-        this._toastService.success('Product updated successfully');
+        this._toastService.success(
+          this.transalte.instant('UPDATE_PRODUCT_SUCCESS')
+        );
       },
       (error) => {
         console.error(error);
-        this._toastService.error(
-          'Something went wrong while updating the product'
-        );
+        this._toastService.error(this.transalte.instant('UPDATE_PRODUCT_FAIL'));
       }
     );
   }

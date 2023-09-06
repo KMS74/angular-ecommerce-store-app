@@ -5,7 +5,9 @@
     class="login-form p-4 broder-1 rounded bg-light"
   >
     <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
+      <label for="username" class="form-label">
+        {{ "USERNAME" | translate }}
+      </label>
       <input
         requird
         type="username"
@@ -17,7 +19,9 @@
     </div>
 
     <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
+      <label for="password" class="form-label">
+        {{ "PASSWORD" | translate }}
+      </label>
       <input
         required
         type="password"
@@ -29,7 +33,9 @@
     </div>
 
     <div class="text-center">
-      <button class="btn btn-primary w-50">Login</button>
+      <button class="btn btn-primary w-50">
+        {{ "LOGIN" | translate }}
+      </button>
     </div>
   </form>
 </div>
