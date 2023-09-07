@@ -1,5 +1,7 @@
 # EcommerceStoreApp
 
+## Live Demo: https://angular-ecommerce-store-app.netlify.app/
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
 
 ## Development server
