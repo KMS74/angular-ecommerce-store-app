@@ -11,6 +11,8 @@ import * as Aos from 'aos';
 export class ProductsListComponent implements OnInit {
   private categories: string[] = [];
   products: CategoryProducts[] = [];
+  filteredProducts: CategoryProducts[] = [];
+  private _listFilter = '';
   isLoading: boolean = false;
   isError: boolean = false;
 
@@ -37,6 +39,7 @@ export class ProductsListComponent implements OnInit {
             });
         });
         console.log(this.products);
+        this.filteredProducts = this.products;
         this.isLoading = false;
       },
       (err) => {
@@ -44,6 +47,41 @@ export class ProductsListComponent implements OnInit {
         this.isLoading = false;
         console.error(err);
       }
+    );
+  }
+
+  get listFilter(): string {
+    return this._listFilter;
+  }
+  set listFilter(value: string) {
+    this._listFilter = value;
+    this.filteredProducts = this.performFilter(value);
+    console.log('filteredProducts: ');
+    console.log(this.filteredProducts);
+  }
+
+  performFilter(filterBy: string) {
+    filterBy = filterBy.toLocaleLowerCase();
+    return this.products.map((product) => {
+      let products = product.products;
+      products = products.filter(
+        (product) =>
+          product.title.toLocaleLowerCase().includes(filterBy) ||
+          product.category.toLocaleLowerCase().includes(filterBy) ||
+          product.price.toString().includes(filterBy)
+      );
+
+      return {
+        ...product,
+        totalProducts: products.length,
+        products,
+      };
+    });
+  }
+
+  get isNotFoundProducts() {
+    return this.filteredProducts.every(
+      (product) => product.totalProducts === 0
     );
   }
 }

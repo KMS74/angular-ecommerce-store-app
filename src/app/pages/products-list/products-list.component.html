@@ -9,19 +9,37 @@
     {{ "PRODUCTS_PAGE_TITLE" | translate }}
   </h1>
 
+  <!-- Search Box -->
+  <input
+    class="form-control p-2 d-flex w-75 my-4"
+    type="text"
+    [placeholder]="'SEARCH_PALCEHOLDER' | translate"
+    [(ngModel)]="listFilter"
+  />
+
   <div
     data-aos="fade-up"
     data-aos-duration="2000"
-    *ngFor="let item of products; let i = index"
+    *ngFor="let item of filteredProducts; let i = index"
     class="container mb-4"
   >
-    <h3 class="h3 mb-2">
+    <h3 *ngIf="item.totalProducts > 0" class="h3 mb-2">
       {{ item.categoryName | titlecase }} ({{ item.totalProducts }})
     </h3>
-    <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3">
+
+    <div
+      *ngIf="item.totalProducts > 0"
+      class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3"
+    >
       <div *ngFor="let product of item.products" class="col">
         <app-product-item [product]="product" />
       </div>
     </div>
+  </div>
+
+  <div *ngIf="isNotFoundProducts" class="alert alert-warning" role="alert">
+    <p class="text-center m-0 fs-5">
+      {{ "NOT_FOUND_PRODUCTS" | translate }}
+    </p>
   </div>
 </section>

@@ -19,7 +19,7 @@
           Angular Store App</a
         >
       </h4> -->
-      <div class="me-auto m-0"></div>
+      <div  *ngIf="!isLoggedIn" class="me-auto m-0"></div>
 
       <ul *ngIf="isLoggedIn" class="navbar-nav mt-2 me-auto mt-lg-0">
         <ng-container *ngIf="isLoggedInUser">
@@ -43,7 +43,7 @@
           </li>
         </ng-container>
       </ul>
-      <form
+      <!-- <form
         *ngIf="isLoggedIn"
         class="d-flex flex-grow-1 mt-2 mb-4 mx-2 my-lg-0"
       >
@@ -52,7 +52,7 @@
           type="text"
           [placeholder]="'SEARCH_PALCEHOLDER' | translate"
         />
-      </form>
+      </form> -->
       <div class="d-flex gap-2 align-items-center">
         <button *ngIf="isLoggedInUser" class="btn border-0">
           <i style="font-size: 1.5rem" class="bi bi-handbag"></i>

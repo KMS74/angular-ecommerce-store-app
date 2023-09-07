@@ -32,5 +32,6 @@
   "DELETE_PRODUCT_CONFIRMATION": "Delete Product Confirmation",
   "DELETE_PRODUCT_MESSAGE": "Are Sure to Delete this product?",
   "PRODUCTS_PER_PAGE": "products per page",
-  "FAIL_CONNECTION_MESSAGE": "Hi there! It looks like you're having trouble connecting 🌍. Can you please check your internet connection and try again?"
+  "FAIL_CONNECTION_MESSAGE": "Hi there! It looks like you're having trouble connecting 🌍. Can you please check your internet connection and try again?",
+  "NOT_FOUND_PRODUCTS": "The product you're searching for is currently unavailable"
 }
