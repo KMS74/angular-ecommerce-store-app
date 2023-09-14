@@ -29,10 +29,7 @@ export class AuthGuard implements CanActivate {
       return this.router.parseUrl('/login');
     }
 
-    if (
-      requiredRole &&
-      this.authService.getCurrentUserRole() !== requiredRole
-    ) {
+    if (requiredRole && currentUserRole !== requiredRole) {
       // User does not have the required role, navigate to unauthorized page or redirect to a different route
       return this.router.parseUrl('/unauthorized');
     }

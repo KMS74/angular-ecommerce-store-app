@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
-import { Product, CategoryProducts } from 'src/app/types/product';
+import { CategoryProducts } from 'src/app/types/product';
 import * as Aos from 'aos';
 
 @Component({
@@ -8,7 +8,7 @@ import * as Aos from 'aos';
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.scss'],
 })
-export class ProductsListComponent implements OnInit {
+export class ProductsListComponent implements OnInit, OnDestroy {
   private categories: string[] = [];
   products: CategoryProducts[] = [];
   filteredProducts: CategoryProducts[] = [];
@@ -21,6 +21,7 @@ export class ProductsListComponent implements OnInit {
   ngOnInit(): void {
     // initialize AOS
     Aos.init();
+    // TODO optimize this code Using forkJoin for handling multiple asynchronous requests
 
     this.isLoading = true;
     this.productService.getCategories().subscribe(
@@ -71,11 +72,13 @@ export class ProductsListComponent implements OnInit {
           product.price.toString().includes(filterBy)
       );
 
-      return {
+      const filteredProducts: CategoryProducts = {
         ...product,
         totalProducts: products.length,
         products,
       };
+
+      return filteredProducts;
     });
   }
 
@@ -84,4 +87,7 @@ export class ProductsListComponent implements OnInit {
       (product) => product.totalProducts === 0
     );
   }
+
+  // TODO unsubscribe from obesrvable when this component destroyed to avoid memory leaks
+  ngOnDestroy(): void {}
 }

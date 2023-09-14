@@ -3,14 +3,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product, ProductDataType } from '../types/product';
 
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  // TODO save this in .env variable
-  private BASE_URL = 'https://fakestoreapi.com';
+  private BASE_URL: string;
 
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) {
+    this.BASE_URL = environment.BASE_URL;
+  }
 
   // Getting all categories from fake store API
   getProducts(): Observable<Product[]> {
