@@ -1,9 +1,9 @@
 # EcommerceStoreApp
 
-## Live Demo: https://angular-ecommerce-store-app.netlify.app/
+## Live Demo: https://angular-ecommerce-store-app.vercel.app
 
 ### To log in as a user enter `user` in both username and password fields
-### To log in as a admin enter `admin` in both username and password fields
+### To log in as an admin enter `admin` in both username and password fields
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
 
