@@ -1,6 +1,11 @@
 .navbar {
+  .navbar-nav {
+    margin-inline-end: auto;
+  }
+
   .badge {
-    top: -14px;
-    right: 7px;
+    inset-inline-end: 8px;
+    inset-block-end: 12px;
+    top: auto;
   }
 }

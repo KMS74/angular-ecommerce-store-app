@@ -19,9 +19,9 @@
           Angular Store App</a
         >
       </h4> -->
-      <div  *ngIf="!isLoggedIn" class="me-auto m-0"></div>
+      <div *ngIf="!isLoggedIn" class="me-auto m-0"></div>
 
-      <ul *ngIf="isLoggedIn" class="navbar-nav mt-2 me-auto mt-lg-0">
+      <ul *ngIf="isLoggedIn" class="navbar-nav mt-2 mt-lg-0">
         <ng-container *ngIf="isLoggedInUser">
           <li class="nav-item fs-5">
             <a class="nav-link" routerLink="products">
