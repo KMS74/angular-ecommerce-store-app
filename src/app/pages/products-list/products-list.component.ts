@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { CategoryProducts } from 'src/app/types/product';
 import * as Aos from 'aos';
+import { Subscription, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-user-view',
@@ -9,6 +10,8 @@ import * as Aos from 'aos';
   styleUrls: ['./products-list.component.scss'],
 })
 export class ProductsListComponent implements OnInit, OnDestroy {
+  private subscriptions: Subscription[] = [];
+
   private categories: string[] = [];
   products: CategoryProducts[] = [];
   filteredProducts: CategoryProducts[] = [];
@@ -21,34 +24,48 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // initialize AOS
     Aos.init();
-    // TODO optimize this code Using forkJoin for handling multiple asynchronous requests
 
     this.isLoading = true;
-    this.productService.getCategories().subscribe(
-      (categories) => {
-        this.categories = categories;
+    const categoriesSubscription = this.productService
+      .getCategories()
+      .subscribe({
+        next: (categories) => {
+          this.categories = categories;
+          // console.log(categories);
 
-        this.categories.forEach((category) => {
-          this.productService
-            .getCategoryProducts(category)
-            .subscribe((products) => {
-              this.products.push({
-                categoryName: category,
-                totalProducts: products.length,
-                products,
-              });
-            });
-        });
-        console.log(this.products);
-        this.filteredProducts = this.products;
-        this.isLoading = false;
-      },
-      (err) => {
-        this.isError = true;
-        this.isLoading = false;
-        console.error(err);
-      }
-    );
+          // an array of observables
+          const categoryProductRequests = this.categories.map((category) =>
+            this.productService.getCategoryProducts(category)
+          );
+
+          // the forkJoin operator is used to combine multiple observables and wait for all of them
+          // to complete before emitting a single result.
+          const productsSubscription = forkJoin(
+            categoryProductRequests
+          ).subscribe((results) => {
+            // console.log(results);
+            this.products = results.map((products, index) => ({
+              categoryName: this.categories[index],
+              totalProducts: products.length,
+              products,
+            }));
+
+            // console.log(this.products);
+
+            this.filteredProducts = this.products;
+            this.isLoading = false;
+          });
+
+          this.subscriptions.push(productsSubscription);
+        },
+        error: (err) => {
+          this.isError = true;
+          this.isLoading = false;
+          console.error(err);
+        },
+      });
+
+    this.subscriptions.push(categoriesSubscription);
   }
 
   get listFilter(): string {
@@ -57,8 +74,8 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   set listFilter(value: string) {
     this._listFilter = value;
     this.filteredProducts = this.performFilter(value);
-    console.log('filteredProducts: ');
-    console.log(this.filteredProducts);
+    // console.log('filteredProducts: ');
+    // console.log(this.filteredProducts);
   }
 
   performFilter(filterBy: string) {
@@ -88,6 +105,8 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     );
   }
 
-  // TODO unsubscribe from obesrvable when this component destroyed to avoid memory leaks
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    // unsubscribe from all subscribtions
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
 }
