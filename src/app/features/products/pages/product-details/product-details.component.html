@@ -1,0 +1,11 @@
+<app-loading-spinner *ngIf="isLoading" />
+
+<div *ngIf="isError" class="alert alert-danger text-center my-4" role="alert">
+  {{ "FAIL_CONNECTION_MESSAGE" | translate }}
+</div>
+
+<section class="my-4" *ngIf="!isLoading && product">
+  <div class="container-md p-4">
+    <app-product-details-card [product]="product"></app-product-details-card>
+  </div>
+</section>
